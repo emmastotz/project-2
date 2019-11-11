@@ -48,27 +48,32 @@ $(document).ready(function() {
       var scheduleState = {
         inSchedule: true
       };
+     
       console.log(scheduleState);
-
       $.ajax("/classes/update/" + id, {
         type: "PUT",
         data: scheduleState
       }).done(function(res){
+        
         console.log("We are here: " + res);
         $.ajax("/schedule/" + id, function() {
           type: "GET"
-        }).then(function(){
-
+        }).then(function(res){
+          console.log("We are running the other ajax here")
           var appendToTimetable = function (day) {
             timetable.addEvent(res[i].subject_code, day, new Date(2015,7,17,startTimeArray[0],startTimeArray[1]), new Date(2015,7,17,endTimeArray[0],endTimeArray[1]));
           }
           
           //this is assuming we are only getting data with boolean = true
-          for(var i in res) {
-            if(res[i].inSchedule){
+          for(var i = 0; i<res.length; i++) {
+            if(res[i].inSchedule===true){
               //SPLITTING THE DATA IN THE TIMES SO WE CAN USE IT IN THE TIME TABLE
-              var startTimeArray = res[i].start_time.split(":");
-              var endTimeArray = res[i].end_time.split(":");
+              var startTimeArray = res[i].start_time.replace(/:/g,',');
+              var endTimeArray = res[i].end_time.replace(/:/g,',');
+              //var myStr="akfsudn"
+              //var newStr = myStr.replace(/:/g,',');
+              //console.log(myStr);
+              console.log("this is the response we are looping through"+ JSON.stringify(res));
               if(res[i].day_code==="MWF"){
                 appendToTimetable("Monday");
                 appendToTimetable("Wednesday");
