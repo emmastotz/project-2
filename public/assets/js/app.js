@@ -103,8 +103,8 @@ $(document).ready(function() {
           for(var i in res) {
             if(res[i].inSchedule){
               //SPLITTING THE DATA IN THE TIMES SO WE CAN USE IT IN THE TIME TABLE
-              var startTimeArray = res.start_time.split(":");
-              var endTimeArray = res.end_time.split(":");
+              var startTimeArray = res[i].start_time.split(":");
+              var endTimeArray = res[i].end_time.split(":");
               if(res[i].day_code==="MWF"){
                 appendToTimetable("Monday");
                 appendToTimetable("Wednesday");
