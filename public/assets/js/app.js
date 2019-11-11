@@ -77,6 +77,7 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".dropdown-item", function(){
+      // $(".student-schedule").show();
       let id = $(this).data("id");
       
       var scheduleState = {
@@ -94,6 +95,40 @@ $(document).ready(function() {
           type: "GET"
         }).then(function(){
           // append to timetable
+          var appendToTimetable = function (day) {
+            timetable.addEvent(res[i].subject_code, day, new Date(2015,7,17,startTimeArray[0],startTimeArray[1]), new Date(2015,7,17,endTimeArray[0],endTimeArray[1]));
+          }
+          
+          //this is assuming we are only getting data with boolean = true
+          for(var i in res) {
+            if(res[i].inSchedule){
+              //SPLITTING THE DATA IN THE TIMES SO WE CAN USE IT IN THE TIME TABLE
+              var startTimeArray = res.start_time.split(":");
+              var endTimeArray = res.end_time.split(":");
+              if(res[i].day_code==="MWF"){
+                appendToTimetable("Monday");
+                appendToTimetable("Wednesday");
+                appendToTimetable("Friday");
+
+              } else if (res[i].day_code==="TR"){
+                appendToTimetable("Tuesday");
+                appendToTimetable("Thursday");
+
+              }else if (res[i].day_code==="MW"){
+                appendToTimetable("Monday");
+                appendToTimetable("Wednesday")
+
+              }else if (res[i].day_code==="W"){
+                appendToTimetable("Wednesday");
+
+              }else if(res[i].day_code==="T"){
+                appendToTimetable("Tuesday")
+
+              } else if(res[i].day_code==="R"){
+                appendToTimetable("Thursday");
+              }
+            }
+          }
         });
       }).fail(function(err){
         console.log(err);
