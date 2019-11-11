@@ -39,7 +39,7 @@ module.exports = function(app) {
     });
   });
   // ====================================================
-  app.put("/api/classes/:id", function(req, res) {
+  app.put("/classes/update/:id", function(req, res) {
     console.log(req.body.inSchedule);
     db.Classes.update({
       inSchedule: req.body.inSchedule
@@ -52,7 +52,7 @@ module.exports = function(app) {
     });
   });
   // ====================================================
-  app.delete("/api/classes/:id", function(req, res) {
+  app.delete("/classes/delete/:id", function(req, res) {
     db.Classes.destroy({
       where: {
         id: req.params.id
