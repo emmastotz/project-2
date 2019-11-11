@@ -39,6 +39,18 @@ module.exports = function(app) {
     });
   });
   // ====================================================
+  app.get("/schedule/:allDataKey", function(req, res) {
+    db.AllData.findAll({
+      where: {
+        ClassId: req.params.allDataKey
+      }
+    }).then(function(result){
+      res.json(result);
+    }).catch(function(err){
+      res.json(400, err);
+    });
+  });
+  // ====================================================
   app.put("/classes/update/:id", function(req, res) {
     console.log(req.body.inSchedule);
     db.Classes.update({

@@ -5,7 +5,7 @@ $(document).ready(function() {
   
     $(".subject-btn").on("click", function(event) {
       $("#classes-list").empty();
-      var id = $(this).data("id");
+      let id = $(this).data("id");
       var subjectName = $(this).data("name").trim().replace(/\s/g, '');
   
       $.ajax("/subject/" + id, {
@@ -21,7 +21,7 @@ $(document).ready(function() {
   
           let classId = result[i].id;
           let btn = $("<button>");
-          btn.attr("data-toggle", "dropdown");
+          // btn.attr("data-toggle", "dropdown");
 
           btn.addClass("btn btn-secondary btn-sm dropdown-toggle view-times");
           btn.attr("type", "button");
@@ -41,7 +41,7 @@ $(document).ready(function() {
   
     $(document).on("click", ".view-times", function() {
       // $(".student-schedule").show();
-      var id = $(this).data("id");
+      let id = $(this).data("id");
       console.log(id);
   
       $.ajax("/class/" + id, {
@@ -55,8 +55,9 @@ $(document).ready(function() {
           dropdownMenu.attr("aria-labelledby","dropdownMenuButton")
           $("#classes-list").append(dropdownMenu);
   
-          let a = $("<a>");
-          a.addClass("dropdown-item");
+          let aLink = $("<a>");
+          aLink.addClass("dropdown-item");
+          aLink.attr("data-id", res[i].id);
           let dayCode = res[i].day_code;
           let startTime = res[i].start_time;
           let endTime = res[i].end_time;
@@ -65,15 +66,40 @@ $(document).ready(function() {
           console.log(startTime);
           console.log(endTime);
           console.log(time);
-          $(a).text(time);
+          $(aLink).text(time);
   
-          $(".dropdown-menu").append(a);
+          $(".dropdown-menu").append(aLink);
   
         };
       }).fail(function(err){
         console.log(err);
       });
     });
+
+    $(document).on("click", ".dropdown-item", function(){
+      let id = $(this).data("id");
+      
+      var scheduleState = {
+        inSchedule: true
+      };
+
+      $.ajax("/classes/update/" + id, {
+        type: "PUT",
+        data: scheduleState
+      }).then(function () {
+        console.log("Updated class at id #: " + id);
+        location.reload();
+      }).success(function(res){
+        $.ajax("/schedule/" + id, function() {
+          type: "GET"
+        }).then(function(){
+          // append to timetable
+        });
+      }).fail(function(err){
+        console.log(err);
+      });
+    });
+
     // $(".not-in-schedule").on("click", function(event) {
     //   var id = $(this).data("id");
     //   console.log(id);
