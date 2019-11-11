@@ -54,9 +54,8 @@ $(document).ready(function() {
       $.ajax("/classes/update/" + id, {
         type: "PUT",
         data: scheduleState
-      }).then(function () {
-        console.log("Updated class at id #: " + id);
-      }).success(function(res){
+      }).done(function(res){
+        console.log(res);
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(){
