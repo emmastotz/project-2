@@ -1,8 +1,7 @@
 {{!-- STUDENT SCHEDULE --}}
 <div class="container">
   <div class="jumbotron student-schedule">
-    <div class="container timetable">
-    </div>
+    <div class="container timetable"></div>
   </div>
 </div>
 <!--You can paste this at the bottom of index.handlebars to see if it works-->
@@ -17,7 +16,7 @@
     timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
      timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
      var renderer = new Timetable.Renderer(timetable);
-     renderer.draw('#timetable');
+     renderer.draw('.timetable');
 </script>
 
 {{!-- CLASS INFO --}}
