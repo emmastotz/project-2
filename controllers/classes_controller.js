@@ -30,7 +30,7 @@ module.exports = function(app) {
   app.get("/class/:classKey", function(req, res) {
     db.AllData.findAll({
       where: {
-        ClassId: req.params.classKey
+        SubjectId: req.params.classKey
       }
     }).then(function(result){
       res.json(result);
