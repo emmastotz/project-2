@@ -15,18 +15,6 @@ module.exports = function(app) {
     });
   });
   // ====================================================
-  app.get("/subject/:subjectKey", function(req, res) {
-    db.Classes.findAll({
-      where: {
-        SubjectId: req.params.subjectKey
-      }
-    }).then(function(result){
-      res.json(result);
-    }).catch(function(err){
-      res.json(400, err);
-    });
-  });
-  // ====================================================
   app.get("/class/:classKey", function(req, res) {
     db.AllData.findAll({
       where: {
@@ -42,7 +30,7 @@ module.exports = function(app) {
   app.get("/schedule/:allDataKey", function(req, res) {
     db.AllData.findAll({
       where: {
-        ClassId: req.params.allDataKey
+        SubjectId: req.params.allDataKey
       }
     }).then(function(result){
       res.json(result);
@@ -53,7 +41,7 @@ module.exports = function(app) {
   // ====================================================
   app.put("/classes/update/:id", function(req, res) {
     console.log(req.body.inSchedule);
-    db.Classes.update({
+    db.AllData.update({
       inSchedule: req.body.inSchedule
     }, { 
       where: { id: req.params.id }
