@@ -8,28 +8,29 @@ $(document).ready(function() {
       let id = $(this).data("id");
       var subjectName = $(this).data("name").trim().replace(/\s/g, '');
   
-      $.ajax("/subject/" + id, {
+      $.ajax("/class/" + id, {
         type: "GET"
       }).then(function(result) {
         $(".classes-display").show();
+        console.log(result);
         
         for (var i in result){
           let className = result[i].class_name;
+          let startTime = result[i].start_time;
+          let endTime = result[i].end_time;
+          let dayCode = result[i].day_code;
+          let idValue = result[i].id;
+          let time = dayCode + ": " + startTime + " - " + endTime;
           let classDiv = $("<li>");
           classDiv.addClass("list-group-item");
-          classDiv.text(className);
-  
-          let classId = result[i].id;
-          let btn = $("<button>");
-          // btn.attr("data-toggle", "dropdown");
+          classDiv.append(className);
+          classDiv.append(time);
 
-          btn.addClass("btn btn-secondary btn-sm dropdown-toggle view-times");
-          btn.attr("type", "button");
-          btn.attr("id","dropdownMenuButton");
-          btn.attr("aria-haspopup", "true");
-          btn.attr("aria-expanded","false");
-          btn.text("View Times");
-          btn.attr("data-id", classId);
+          let btn = $("<button>");
+          btn.addClass("btn btn-primary btn-sm add-class");
+          btn.attr("type","submit");
+          btn.text("Add to Schedule");
+          btn.attr("data-id",idValue);
   
           $("#classes-list").append(classDiv);
           $("#classes-list").append(btn);
@@ -38,46 +39,9 @@ $(document).ready(function() {
         console.log(err);
       });
     });
-  
-    $(document).on("click", ".view-times", function() {
-      // $(".student-schedule").show();
-      let id = $(this).data("id");
-      console.log(id);
-  
-      $.ajax("/class/" + id, {
-        type: "GET"
-      }).then(function(res) {
-        console.log(res);
-        for (var i in res){
-          console.log(res[i]);
-          let dropdownMenu = $("<div>");
-          dropdownMenu.addClass("dropdown-menu");
-          dropdownMenu.attr("aria-labelledby","dropdownMenuButton")
-          $("#classes-list").append(dropdownMenu);
-  
-          let aLink = $("<a>");
-          aLink.addClass("dropdown-item");
-          aLink.attr("data-id", res[i].id);
-          let dayCode = res[i].day_code;
-          let startTime = res[i].start_time;
-          let endTime = res[i].end_time;
-          let time = dayCode + ": " + startTime + " - " + endTime;
-          console.log(dayCode);
-          console.log(startTime);
-          console.log(endTime);
-          console.log(time);
-          $(aLink).text(time);
-  
-          $(".dropdown-menu").append(aLink);
-  
-        };
-      }).fail(function(err){
-        console.log(err);
-      });
-    });
-
-    $(document).on("click", ".dropdown-item", function(){
-      // $(".student-schedule").show();
+// ====================================================
+    $(document).on("click", ".add-class", function(){
+      $(".student-schedule").show();
       let id = $(this).data("id");
       
       var scheduleState = {
@@ -89,7 +53,6 @@ $(document).ready(function() {
         data: scheduleState
       }).then(function () {
         console.log("Updated class at id #: " + id);
-        location.reload();
       }).success(function(res){
         $.ajax("/schedule/" + id, function() {
           type: "GET"
