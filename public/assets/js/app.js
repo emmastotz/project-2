@@ -15,7 +15,7 @@ $(document).ready(function() {
         console.log(result);
         
         for (var i in result){
-          let className = result[i].class_name;
+          let className = result[i].number_title;
           let startTime = result[i].start_time;
           let endTime = result[i].end_time;
           let dayCode = result[i].day_code;
@@ -23,7 +23,8 @@ $(document).ready(function() {
           let time = dayCode + ": " + startTime + " - " + endTime;
           let classDiv = $("<li>");
           classDiv.addClass("list-group-item");
-          classDiv.append(className);
+          classDiv.append("<strong>" + className + "</strong>");
+          classDiv.append("<br>");
           classDiv.append(time);
 
           let btn = $("<button>");
@@ -43,10 +44,12 @@ $(document).ready(function() {
     $(document).on("click", ".add-class", function(){
       $(".student-schedule").show();
       let id = $(this).data("id");
+      console.log(id);
       
       var scheduleState = {
         inSchedule: true
       };
+      console.log(scheduleState);
 
       $.ajax("/classes/update/" + id, {
         type: "PUT",
@@ -57,7 +60,7 @@ $(document).ready(function() {
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(){
-          // append to timetable
+
           var appendToTimetable = function (day) {
             timetable.addEvent(res[i].subject_code, day, new Date(2015,7,17,startTimeArray[0],startTimeArray[1]), new Date(2015,7,17,endTimeArray[0],endTimeArray[1]));
           }
