@@ -1,0 +1,16 @@
+<!--You can paste this at the bottom of index.handlebars to see if it works-->
+<div class = "container">
+    <div id = "timetable" class="timetable"></div>
+</div>
+
+<script src="scripts/timetable.js"></script>
+
+<script>
+  console.log("This is working")
+    var timetable = new Timetable();
+    timetable.setScope(9,8);
+    timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+     timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,13,30), new Date(2015,7,17,15), { url: '#' });
+     var renderer = new Timetable.Renderer(timetable);
+     renderer.draw('#timetable');
+</script>
