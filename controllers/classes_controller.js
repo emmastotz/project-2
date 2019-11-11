@@ -15,10 +15,22 @@ module.exports = function(app) {
     });
   });
   // ====================================================
-  app.get("/:subjectKey", function(req, res) {
+  app.get("/subject/:subjectKey", function(req, res) {
     db.Classes.findAll({
       where: {
         SubjectId: req.params.subjectKey
+      }
+    }).then(function(result){
+      res.json(result);
+    }).catch(function(err){
+      res.json(400, err);
+    });
+  });
+  // ====================================================
+  app.get("/class/:classKey", function(req, res) {
+    db.AllData.findAll({
+      where: {
+        ClassId: req.params.classKey
       }
     }).then(function(result){
       res.json(result);

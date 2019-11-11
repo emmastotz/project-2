@@ -7,14 +7,12 @@ $(function () {
     var id = $(this).data("id");
     var subjectName = $(this).data("name").trim().replace(/\s/g, '');
 
-    $.ajax("/" + id, {
+    $.ajax("/subject/" + id, {
       type: "GET"
     }).then(function(result) {
       $(".classes-display").show();
-      $('.collapse').collapse('show');
       
       for (var i in result){
-        console.log(result[i]);
         let className = result[i].class_name;
         let classDiv = $("<li>");
         classDiv.addClass("list-group-item");
@@ -22,8 +20,13 @@ $(function () {
 
         let classId = result[i].id;
         let button = $("<button>");
-        button.addClass("btn btn-secondary btn-sm add-class");
-        button.text("Add to Schedule");
+        button.addClass("btn btn-secondary btn-sm dropdown-toggle view-times");
+        button.attr("type", "button");
+        button.attr("id","dropdownMenuButton");
+        // button.attr("data-toggle", "dropdown");
+        button.attr("aria-haspopup", "true");
+        button.attr("aria-expanded","false");
+        button.text("View Times");
         button.attr("data-id", classId);
 
         $("#classes-list").append(classDiv);
@@ -34,14 +37,39 @@ $(function () {
     });
   });
 
-  $(document).on("click", ".add-class", function() {
-    $(".student-schedule").show();
+  $(document).on("click", ".view-times", function() {
+    // $(".student-schedule").show();
     var id = $(this).data("id");
     console.log(id);
 
-    // $.ajax("/" + id, {
-    //   type: 
-    // })
+    $.ajax("/class/" + id, {
+      type: "GET"
+    }).then(function(res) {
+      console.log(res);
+      for (var i in res){
+        console.log(res[i]);
+        let dropdownMenu = $("<div>");
+        dropdownMenu.addClass("dropdown-menu");
+        dropdownMenu.attr("aria-labelledby","dropdownMenuButton")
+        $("#classes-list").append(dropdownMenu);
+
+        let a = $("<a>");
+        a.addClass("dropdown-item");
+        let dayCode = res[i].day_code;
+        let startTime = res[i].start_time;
+        let endTime = res[i].end_time;
+        // let time = dayCode + ": " + startTime + " - " + endTime;
+        console.log(dayCode);
+        console.log(startTime);
+        console.log(endTime);
+        $(a).text(time);
+
+        $(".dropdown-menu").append(a);
+
+      };
+    }).fail(function(err){
+      console.log(err);
+    });
   });
 
   // $(".not-in-schedule").on("click", function(event) {
