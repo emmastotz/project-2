@@ -12,7 +12,6 @@ $(document).ready(function() {
         type: "GET"
       }).then(function(result) {
         $(".classes-display").show();
-        console.log(result);
         
         for (var i in result){
           let className = result[i].number_title;
@@ -55,7 +54,7 @@ $(document).ready(function() {
         type: "PUT",
         data: scheduleState
       }).done(function(res){
-        console.log(res);
+        console.log("We are here: " + res);
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(){
