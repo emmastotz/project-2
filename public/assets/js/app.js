@@ -1,5 +1,3 @@
-
-
 $(document).ready(function() {
   $(function () {
     $(".student-schedule").hide();
