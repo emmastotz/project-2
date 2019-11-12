@@ -52,13 +52,14 @@ module.exports = function(app) {
     });
   });
   // ====================================================
-  app.delete("/classes/delete/:id", function(req, res) {
-    db.Classes.destroy({
-      where: {
-        id: req.params.id
-      }
+  app.put("/classes/clear/", function(req, res) {
+    console.log(req.body.inSchedule);
+    db.AllData.update({
+      inSchedule: req.body.inSchedule
+    }, { 
+      where: { inSchedule: true }
     }).then(function(result){
-        res.json(result);
+      res.json(result);
     }).catch(function(err){
       res.json(400, err);
     });

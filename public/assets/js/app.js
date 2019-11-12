@@ -1,7 +1,12 @@
 $(document).ready(function() {
   $(function() {
-    $(".student-schedule").hide();
     $(".classes-display").hide();
+
+    var timetable = new Timetable();
+    timetable.setScope(9,20);
+    timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+    var renderer = new Timetable.Renderer(timetable);
+    renderer.draw('.timetable');
   
     $(".subject-btn").on("click", function(event) {
       $("#classes-list").empty();
@@ -47,7 +52,6 @@ $(document).ready(function() {
     });
 // ====================================================
     $(document).on("click", ".add-class", function() {
-      $(".student-schedule").show();
       let id = $(this).data("id");
       console.log(id);
       
@@ -122,9 +126,33 @@ $(document).ready(function() {
         data: scheduleState
       }).then(function () {
         console.log("Remove class #", id);
+        var timetable = new Timetable();
+        timetable.setScope(9,20);
+        timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+        var renderer = new Timetable.Renderer(timetable);
         renderer.draw('.timetable');
+        location.reload();
       });
+    });
 // ====================================================
+    $(".clear-btn").on("click", function(event) {
+      var scheduleState = {
+        inSchedule: false
+      };
+      
+      $.ajax("/classes/clear/", {
+        type: "PUT",
+        data: scheduleState
+      }).then(function () {
+        console.log("Cleared class schedule");
+        var timetable = new Timetable();
+        timetable.setScope(9,20);
+        timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+        var renderer = new Timetable.Renderer(timetable);
+        renderer.draw('.timetable');
+        location.reload();
+      });
+      
     });
   });
 });
