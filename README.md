@@ -1,20 +1,24 @@
-### **CHZBRG the Sequel**
+### **BLOCK APP**
 #### A sequelized version of CHZBGR
 
 ##### PROBLEM/SOLUTION
-A restaurant app that lets users input the names of burgers they'd like to eat.
+A time table scheduling App that lets users(students) sign in and choose what time and date they'd like to take a subject, then add it to their calendar.
 
-##### CHZBGR Overview
+##### BLOCK Overview
 * server.js (Sets up our app to use express and to listen at a port.)
 * package.json
 * package-lock.json
 * config
   * config.json file created by sequelize
 * controllers
-  * burgers_controller.js (Routes our functionality)
+  * classes_controller.js (Routes our functionality)
 * models
-  * burgers.js (Sequelize model for burger data.)
+  * db (Database using MySQL)
+  * allData.js (Sequelize model for allData data.)
+  * classes.js (Sequelize model for classes data).
   * index.js (Boiler plate Sequelize file.)
+  * students.js (Sequelize model for students)
+  * subjects.js (Sequelize model for subjects)
 * public
   * assets
     * css
@@ -44,4 +48,4 @@ A restaurant app that lets users input the names of burgers they'd like to eat.
 * Node
 * NPMs: Express, Handlebars, dotenv, Sequelize, Sequelize-cli
 
-This app was created entirely by Emma Stotz
+This app was created by Andy Tran, Alex Simuro, Emma Stotz and Sandy Enow
