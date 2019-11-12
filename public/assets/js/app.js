@@ -67,10 +67,12 @@ $(document).ready(function() {
            timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
            var renderer = new Timetable.Renderer(timetable);
            renderer.draw('.timetable');
+           timetable.addEvent('Other', 'Monday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
+           renderer.draw('.timetable');
 
            //FUNCTION
-          var appendToTimetable = function (name,day, startTime, endTime) {
-            timetable.addEvent(name, day, new Date(2015,7,17, startTime), new Date(2015,7,17,endTime)); 
+          var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
+            timetable.addEvent(name, day, new Date(2015,7,17, startTimeHour, startTimeMin), new Date(2015,7,17,endTimeHour,endTimeMin)); 
             renderer.draw('.timetable');
           }
           
@@ -79,43 +81,37 @@ $(document).ready(function() {
           //this is assuming we are only getting data with boolean = true
           for(var i = 0; i<res.length; i++) {
             if(res[i].inSchedule===true){
-              console.log("Start time before the split: " + res[i].start_time);
-              var res = res[i].start_time.replace(/:/g, ",");
-              console.log("Start time after replacing: "+ res);
               var startTimeArray = res[i].start_time.split(":");
-           
+              console.log(typeof(startTimeArray));
               console.log(startTimeArray);
-
               var endTimeArray = res[i].end_time.split(":");
-          
               console.log(endTimeArray);
 
-            
               var name = res[i].subject_code + " " + res[i].number_title;
               console.log("this is the response we are looping through"+ JSON.stringify(res));
 
               if(res[i].day_code==="MWF"){
                 console.log("Is the mwf if statement working?  YES")
-                appendToTimetable(name, "Monday");
-                appendToTimetable(name, "Wednesday");
-                appendToTimetable(name, "Friday");
+                appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Friday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               } else if (res[i].day_code==="TR"){
-                appendToTimetable("Tuesday");
-                appendToTimetable("Thursday");
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               }else if (res[i].day_code==="MW"){
-                appendToTimetable("Monday");
-                appendToTimetable("Wednesday")
+                appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               }else if (res[i].day_code==="W"){
-                appendToTimetable("Wednesday");
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               }else if(res[i].day_code==="T"){
-                appendToTimetable("Tuesday")
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               } else if(res[i].day_code==="R"){
-                appendToTimetable("Thursday");
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
               }
             }
           }
