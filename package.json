@@ -1,7 +1,7 @@
 {
-  "name": "chzbgr",
+  "name": "jennyfromtheblock",
   "version": "1.0.0",
-  "description": "CHZBGR is a restaurant app that lets users input the names of burgers they'd like to eat.",
+  "description": "Set your class schedule!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emmastotz/chzbgr.git"
+    "url": "git+https://github.com/emmastotz/project-2"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/emmastotz/chzbgr/issues"
+    "url": "https://github.com/emmastotz/project-2"
   },
-  "homepage": "https://github.com/emmastotz/chzbgr#readme",
+  "homepage": "https://github.com/emmastotz/project-2#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
