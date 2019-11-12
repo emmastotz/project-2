@@ -1,3 +1,5 @@
+import { start } from "repl";
+
 $(document).ready(function() {
   $(function () {
     $(".student-schedule").hide();
@@ -59,25 +61,51 @@ $(document).ready(function() {
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(res){
-          console.log("We are running the other ajax here")
-          var appendToTimetable = function (day) {
-            timetable.addEvent(res[i].subject_code, day, new Date(2015,7,17,startTimeArray[0],startTimeArray[1]), new Date(2015,7,17,endTimeArray[0],endTimeArray[1]));
+          var timetable = new Timetable();
+          timetable.setScope(9,8);
+          timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+           timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
+           var renderer = new Timetable.Renderer(timetable);
+           renderer.draw('.timetable');
+
+           //FUNCTION
+          var appendToTimetable = function (name,day, startTime, endTime) {
+            timetable.addEvent(name, day, new Date(2015,7,17, startTime), new Date(2015,7,17,endTime)); 
+            renderer.draw('.timetable');
           }
+          
+          
           
           //this is assuming we are only getting data with boolean = true
           for(var i = 0; i<res.length; i++) {
             if(res[i].inSchedule===true){
-              //SPLITTING THE DATA IN THE TIMES SO WE CAN USE IT IN THE TIME TABLE
-              var startTimeArray = res[i].start_time.replace(/:/g,',');
-              var endTimeArray = res[i].end_time.replace(/:/g,',');
-              //var myStr="akfsudn"
-              //var newStr = myStr.replace(/:/g,',');
-              //console.log(myStr);
+              var startTimeArray = res[i].start_time.split(":");
+              var startTimeIntegerArray =[];
+              for(var x=0; x< startTimeArray.length; x++){
+                var temp = parseInt(startTimeArray[x]);
+                startTimeIntegerArray.push(temp);
+                
+              } 
+              console.log(startTimeIntegerArray);
+
+              var endTimeArray = res[i].end_time.split(":");
+              var endTimeIntegerArray =[];
+              for(var x=0; x< endTimeArray.length; x++){
+                var temp = parseInt(endTimeArray[x]);
+                endTimeIntegerArray.push(temp);
+                
+              } 
+              console.log(endTimeIntegerArray);
+
+            
+              var name = res[i].subject_code + " " + res[i].number_title;
               console.log("this is the response we are looping through"+ JSON.stringify(res));
+
               if(res[i].day_code==="MWF"){
-                appendToTimetable("Monday");
-                appendToTimetable("Wednesday");
-                appendToTimetable("Friday");
+                console.log("Is the mwf if statement working?  YES")
+                appendToTimetable(name, "Monday");
+                appendToTimetable(name, "Wednesday");
+                appendToTimetable(name, "Friday");
 
               } else if (res[i].day_code==="TR"){
                 appendToTimetable("Tuesday");
