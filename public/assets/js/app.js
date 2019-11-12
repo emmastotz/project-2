@@ -52,9 +52,7 @@ $(document).ready(function() {
         console.log(err);
       });
     });
-    //=========================
-    
-
+//==================================================================================
       let id = $(this).data("id");
       console.log(id);
       
@@ -115,7 +113,7 @@ $(document).ready(function() {
         console.log(err);
       });
     
-// ====================================================
+//==================================================================================
     $(document).on("click", ".add-class", function() {
       let id = $(this).data("id");
       console.log(id);
@@ -177,9 +175,10 @@ $(document).ready(function() {
         console.log(err);
       });
     });
-// ====================================================
+//==================================================================================
     $(document).on("click", ".remove-class", function() {
       location.reload();
+      $(".classes-display").show();
       let id = $(this).data("id");
       console.log(id);
       
@@ -191,7 +190,6 @@ $(document).ready(function() {
       $.ajax("/classes/update/" + id, {
         type: "PUT",
         data: scheduleState
-<<<<<<< Updated upstream
       }).then(function () {
         console.log("Remove class #", id);
         var timetable = new Timetable();
@@ -199,7 +197,6 @@ $(document).ready(function() {
         timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
         var renderer = new Timetable.Renderer(timetable);
         renderer.draw('.timetable');
-=======
       }).done(function(res){
         
         $.ajax("/schedule/" + id, function() {
@@ -247,10 +244,9 @@ $(document).ready(function() {
         });
       }).fail(function(err){
         console.log(err);
->>>>>>> Stashed changes
       });
     });
-      //==========================================
+//==================================================================================
     $(".clear-btn").on("click", function(event) {
       var scheduleState = {
         inSchedule: false
