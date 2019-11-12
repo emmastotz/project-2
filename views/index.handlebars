@@ -1,23 +1,19 @@
 {{!-- STUDENT SCHEDULE --}}
 <div class="container">
   <div class="jumbotron student-schedule">
+    <h4>Schedule</h4>
     <div class="container timetable"></div>
+    <button class="btn btn-secondary clear-btn btn-sm" type="clear">Clear Schedule</button>
   </div>
 </div>
-<!--You can paste this at the bottom of index.handlebars to see if it works-->
+
 <script>
   var timetable = new Timetable();
-  timetable.setScope(9,8);
+  timetable.setScope(9,20);
   timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
-  timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
   var renderer = new Timetable.Renderer(timetable);
   renderer.draw('.timetable');
-  timetable.addEvent('Other', 'Monday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
-  renderer.draw('.timetable');
 </script>
-
-
-
 
 {{!-- CLASS INFO --}}
 <div class="container">
