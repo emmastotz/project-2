@@ -24,20 +24,22 @@ $(document).ready(function() {
           let dayCode = result[i].day_code;
           let idValue = result[i].id;
           let time = dayCode + ": " + startTime + " - " + endTime;
+          let section = result[i].sec;
           let classDiv = $("<li>");
           classDiv.addClass("list-group-item");
           classDiv.append("<strong>" + className + "</strong>");
+          classDiv.append(" - Section: " + section);
           classDiv.append("<br>");
           classDiv.append(time);
 
           let addBtn = $("<button>");
-          addBtn.addClass("btn btn-primary btn-sm add-class");
+          addBtn.addClass("btn btn-secondary btn-sm add-class");
           addBtn.attr("type","submit");
           addBtn.text("Add to Schedule");
           addBtn.attr("data-id",idValue);
 
           let deleteBtn = $("<button>");
-          deleteBtn.addClass("btn btn-primary btn-sm remove-class");
+          deleteBtn.addClass("btn btn-secondary btn-sm remove-class");
           deleteBtn.attr("type","button");
           deleteBtn.text("Remove from Schedule");
           deleteBtn.attr("data-id",idValue);
@@ -131,7 +133,6 @@ $(document).ready(function() {
         timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
         var renderer = new Timetable.Renderer(timetable);
         renderer.draw('.timetable');
-        location.reload();
       });
     });
 // ====================================================
