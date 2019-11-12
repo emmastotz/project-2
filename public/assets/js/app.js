@@ -1,12 +1,11 @@
 $(document).ready(function() {
-  $(function () {
+  $(function() {
     $(".student-schedule").hide();
     $(".classes-display").hide();
   
     $(".subject-btn").on("click", function(event) {
       $("#classes-list").empty();
       let id = $(this).data("id");
-      var subjectName = $(this).data("name").trim().replace(/\s/g, '');
   
       $.ajax("/class/" + id, {
         type: "GET"
@@ -26,21 +25,28 @@ $(document).ready(function() {
           classDiv.append("<br>");
           classDiv.append(time);
 
-          let btn = $("<button>");
-          btn.addClass("btn btn-primary btn-sm add-class");
-          btn.attr("type","submit");
-          btn.text("Add to Schedule");
-          btn.attr("data-id",idValue);
+          let addBtn = $("<button>");
+          addBtn.addClass("btn btn-primary btn-sm add-class");
+          addBtn.attr("type","submit");
+          addBtn.text("Add to Schedule");
+          addBtn.attr("data-id",idValue);
+
+          let deleteBtn = $("<button>");
+          deleteBtn.addClass("btn btn-primary btn-sm remove-class");
+          deleteBtn.attr("type","button");
+          deleteBtn.text("Remove from Schedule");
+          deleteBtn.attr("data-id",idValue);
   
           $("#classes-list").append(classDiv);
-          $("#classes-list").append(btn);
+          $("#classes-list").append(addBtn);
+          $("#classes-list").append(deleteBtn);
         };
       }).fail(function(err){
         console.log(err);
       });
     });
 // ====================================================
-    $(document).on("click", ".add-class", function(){
+    $(document).on("click", ".add-class", function() {
       $(".student-schedule").show();
       let id = $(this).data("id");
       console.log(id);
@@ -55,12 +61,11 @@ $(document).ready(function() {
         data: scheduleState
       }).done(function(res){
         
-        console.log("We are here: " + res);
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(res){
 
-           //FUNCTION
+          //FUNCTION
           var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
             timetable.addEvent(name, day, new Date(2015,7,17, startTimeHour, startTimeMin), new Date(2015,7,17,endTimeHour,endTimeMin)); 
             renderer.draw('.timetable');
@@ -69,20 +74,14 @@ $(document).ready(function() {
           for(var i = 0; i<res.length; i++) {
             if(res[i].inSchedule===true){
               var startTimeArray = res[i].start_time.split(":");
-              console.log(typeof(startTimeArray));
-              console.log(startTimeArray);
               var endTimeArray = res[i].end_time.split(":");
-              console.log(endTimeArray);
 
               var name = res[i].subject_code + " " + res[i].number_title;
-              console.log("this is the response we are looping through"+ JSON.stringify(res));
 
               if (res[i].day_code==="MWF"){
-                console.log("Is the mwf if statement working?  YES")
                 appendToTimetable(name, "Monday",  startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Friday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
-                
 
               } else if (res[i].day_code==="TR"){
                 appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
@@ -109,39 +108,23 @@ $(document).ready(function() {
         console.log(err);
       });
     });
+// ====================================================
+    $(document).on("click", ".remove-class", function() {
+      let id = $(this).data("id");
+      console.log(id);
+      
+      var scheduleState = {
+        inSchedule: false
+      };
 
-    // $(".not-in-schedule").on("click", function(event) {
-    //   var id = $(this).data("id");
-    //   console.log(id);
-  
-    //   var scheduleState = {
-    //     inSchedule: true
-    //   };
-  
-    //   $.ajax("/classes/update/" + id, {
-    //     type: "PUT",
-    //     data: scheduleState
-    //   }).then(function () {
-    //     console.log("Added class #", id);
-    //     location.reload();
-    //   }).fail(function(err){
-    //     console.log(err);
-    //   });
-    // });
-  
-    // $(".in-schedule").on("click", function (event) {
-    //   var id = $(this).data("id");
-    //   console.log(id);
-  
-    //   $.ajax("/classes/delete/" + id, {
-    //     type: "DELETE"
-    //   }).then(function () {
-    //     console.log("Deleted burger #", id);
-    //     location.reload();
-    //   }).fail(function(err){
-    //     console.log("Error: " + err);
-    //   });
-    // });
+      $.ajax("/classes/update/" + id, {
+        type: "PUT",
+        data: scheduleState
+      }).then(function () {
+        console.log("Remove class #", id);
+        renderer.draw('.timetable');
+      });
+// ====================================================
+    });
   });
 });
-

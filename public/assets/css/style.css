@@ -24,9 +24,14 @@ li.list-group-item {
   text-align: center;
 }
 
-button.add-class {
+button.btn-sm {
   margin-bottom: 2%; 
 }
+
+button.clear-btn {
+  margin-top: 2%; 
+}
+
 
 a:link {
   color: black;
