@@ -24,33 +24,35 @@ li.list-group-item {
   text-align: center;
 }
 
-button.btn-sm {
-  margin-bottom: 2%;
-}
-
-button.clear-btn {
-  margin-top: 2%; 
-}
-
-
 a:link {
-  color: black;
+  color: #2E7FAD;
   text-decoration: none;
 }
 
 a:visited {
-  color: black;
+  color: #2E7FAD;
   text-decoration: none;
 }
 
 a:hover {
-  color: black;
+  color: #2E7FAD;
   text-decoration: underline;
 }
 
 a:active {
-  color: black;
+  color: #2E7FAD;
   text-decoration: none;
+}
+
+button.btn-sm {
+  margin-bottom: 2%;
+  color: #2E7FAD;
+}
+
+button.btn-secondary {
+  margin-top: 2%;
+  background-color: #2E7FAD;
+  color: white;
 }
 
 div.subject-display {
