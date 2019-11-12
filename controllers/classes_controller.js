@@ -30,7 +30,7 @@ module.exports = function(app) {
   app.get("/schedule/:allDataKey", function(req, res) {
     db.AllData.findAll({
       where: {
-        SubjectId: req.params.allDataKey
+        id: req.params.allDataKey
       }
     }).then(function(result){
       res.json(result);
