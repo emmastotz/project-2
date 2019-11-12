@@ -108,16 +108,20 @@ $(document).ready(function() {
         console.log(err);
       });
     });
+
 //==================================================================================
     function updateTable (scheduleObj, id) {
+
       $.ajax("/classes/update/" + id, {
         type: "PUT",
         data: scheduleObj
       }).done(function(res){
         displayTable();
       });
+
     };    
 //==================================================================================
+
     $(document).on("click", ".add-class", function() {
       let id = $(this).data("id");
       
@@ -127,20 +131,24 @@ $(document).ready(function() {
 
       updateTable(scheduleState, id);
     });
-//==================================================================================
+// ====================================================
     $(document).on("click", ".remove-class", function() {
+
+
       let id = $(this).data("id");
       var scheduleState = {
         inSchedule: false
       };
+
 
       let reloadUrl = '/?scheduleId=' + id;
 
       updateTable(scheduleState, id);
       
       window.location.href = reloadUrl;
+
     });
-//==================================================================================
+      //==========================================
     $(".clear-btn").on("click", function(event) {
       var scheduleState = {
         inSchedule: false
