@@ -52,6 +52,69 @@ $(document).ready(function() {
         console.log(err);
       });
     });
+    //=========================
+    
+
+      let id = $(this).data("id");
+      console.log(id);
+      
+      var scheduleState = {
+        inSchedule: true
+      };
+
+      console.log(scheduleState);
+      $.ajax("/classes/update/" + id, {
+        type: "PUT",
+        data: scheduleState
+      }).done(function(res){
+        
+        $.ajax("/schedule/" + id, function() {
+          type: "GET"
+        }).then(function(res){
+
+          //FUNCTION
+          var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
+            timetable.addEvent(name, day, new Date(2015,7,17, startTimeHour, startTimeMin), new Date(2015,7,17,endTimeHour,endTimeMin)); 
+            renderer.draw('.timetable');
+          };
+
+          for(var i = 0; i<res.length; i++) {
+            if(res[i].inSchedule===true){
+              var startTimeArray = res[i].start_time.split(":");
+              var endTimeArray = res[i].end_time.split(":");
+
+              var name = res[i].subject_code + " " + res[i].number_title;
+
+              if (res[i].day_code==="MWF"){
+                appendToTimetable(name, "Monday",  startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Friday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="TR"){
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="MW"){
+                appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="W"){
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if(res[i].day_code==="T"){
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if(res[i].day_code==="R"){
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+              }
+            }
+          }
+          renderer.draw('.timetable');
+        });
+      }).fail(function(err){
+        console.log(err);
+      });
+    
 // ====================================================
     $(document).on("click", ".add-class", function() {
       let id = $(this).data("id");
@@ -116,6 +179,7 @@ $(document).ready(function() {
     });
 // ====================================================
     $(document).on("click", ".remove-class", function() {
+      location.reload();
       let id = $(this).data("id");
       console.log(id);
       
@@ -123,9 +187,11 @@ $(document).ready(function() {
         inSchedule: false
       };
 
+      console.log(scheduleState);
       $.ajax("/classes/update/" + id, {
         type: "PUT",
         data: scheduleState
+<<<<<<< Updated upstream
       }).then(function () {
         console.log("Remove class #", id);
         var timetable = new Timetable();
@@ -133,9 +199,58 @@ $(document).ready(function() {
         timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
         var renderer = new Timetable.Renderer(timetable);
         renderer.draw('.timetable');
+=======
+      }).done(function(res){
+        
+        $.ajax("/schedule/" + id, function() {
+          type: "GET"
+        }).then(function(res){
+
+          //FUNCTION
+          var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
+            timetable.addEvent(name, day, new Date(2015,7,17, startTimeHour, startTimeMin), new Date(2015,7,17,endTimeHour,endTimeMin)); 
+            renderer.draw('.timetable');
+          };
+
+          for(var i = 0; i<res.length; i++) {
+            if(res[i].inSchedule===true){
+              var startTimeArray = res[i].start_time.split(":");
+              var endTimeArray = res[i].end_time.split(":");
+
+              var name = res[i].subject_code + " " + res[i].number_title;
+
+              if (res[i].day_code==="MWF"){
+                appendToTimetable(name, "Monday",  startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Friday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="TR"){
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="MW"){
+                appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if (res[i].day_code==="W"){
+                appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if(res[i].day_code==="T"){
+                appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+
+              } else if(res[i].day_code==="R"){
+                appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+              }
+            }
+          }
+          renderer.draw('.timetable');
+        });
+      }).fail(function(err){
+        console.log(err);
+>>>>>>> Stashed changes
       });
     });
-// ====================================================
+      //==========================================
     $(".clear-btn").on("click", function(event) {
       var scheduleState = {
         inSchedule: false
