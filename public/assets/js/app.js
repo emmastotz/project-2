@@ -61,14 +61,7 @@ $(document).ready(function() {
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(res){
-          var timetable = new Timetable();
-          timetable.setScope(9,8);
-          timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
-           timetable.addEvent('Zumbu', 'Tuesday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
-           var renderer = new Timetable.Renderer(timetable);
-           renderer.draw('.timetable');
-           timetable.addEvent('Other', 'Monday', new Date(2015,7,17,"9","00", "00"), new Date(2015,7, 17, "9","50", "00"), { url: '#' });
-           renderer.draw('.timetable');
+          //This is where we had the timetable STUFF
 
            //FUNCTION
           var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
@@ -90,24 +83,25 @@ $(document).ready(function() {
               var name = res[i].subject_code + " " + res[i].number_title;
               console.log("this is the response we are looping through"+ JSON.stringify(res));
 
-              if(res[i].day_code==="MWF"){
+              if (res[i].day_code==="MWF"){
                 console.log("Is the mwf if statement working?  YES")
-                appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                appendToTimetable(name, "Monday",  startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Friday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
+                
 
               } else if (res[i].day_code==="TR"){
                 appendToTimetable(name, "Thursday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
-              }else if (res[i].day_code==="MW"){
+              } else if (res[i].day_code==="MW"){
                 appendToTimetable(name, "Monday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
                 appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
-              }else if (res[i].day_code==="W"){
+              } else if (res[i].day_code==="W"){
                 appendToTimetable(name, "Wednesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
-              }else if(res[i].day_code==="T"){
+              } else if(res[i].day_code==="T"){
                 appendToTimetable(name, "Tuesday", startTimeArray[0], startTimeArray[1], endTimeArray[0], endTimeArray[1]);
 
               } else if(res[i].day_code==="R"){
@@ -115,6 +109,7 @@ $(document).ready(function() {
               }
             }
           }
+          renderer.draw('.timetable');
         });
       }).fail(function(err){
         console.log(err);
