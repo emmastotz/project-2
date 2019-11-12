@@ -1,5 +1,3 @@
-
-
 $(document).ready(function() {
   $(function () {
     $(".student-schedule").hide();
@@ -50,7 +48,7 @@ $(document).ready(function() {
       var scheduleState = {
         inSchedule: true
       };
-     
+
       console.log(scheduleState);
       $.ajax("/classes/update/" + id, {
         type: "PUT",
@@ -61,17 +59,13 @@ $(document).ready(function() {
         $.ajax("/schedule/" + id, function() {
           type: "GET"
         }).then(function(res){
-          //This is where we had the timetable STUFF
 
            //FUNCTION
           var appendToTimetable = function (name,day, startTimeHour, startTimeMin, endTimeHour, endTimeMin) {
             timetable.addEvent(name, day, new Date(2015,7,17, startTimeHour, startTimeMin), new Date(2015,7,17,endTimeHour,endTimeMin)); 
             renderer.draw('.timetable');
-          }
-          
-          
-          
-          //this is assuming we are only getting data with boolean = true
+          };
+
           for(var i = 0; i<res.length; i++) {
             if(res[i].inSchedule===true){
               var startTimeArray = res[i].start_time.split(":");
