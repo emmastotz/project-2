@@ -1,4 +1,4 @@
-import { start } from "repl";
+
 
 $(document).ready(function() {
   $(function () {
@@ -79,23 +79,16 @@ $(document).ready(function() {
           //this is assuming we are only getting data with boolean = true
           for(var i = 0; i<res.length; i++) {
             if(res[i].inSchedule===true){
+              console.log("Start time before the split: " + res[i].start_time);
+              var res = res[i].start_time.replace(/:/g, ",");
+              console.log("Start time after replacing: "+ res);
               var startTimeArray = res[i].start_time.split(":");
-              var startTimeIntegerArray =[];
-              for(var x=0; x< startTimeArray.length; x++){
-                var temp = parseInt(startTimeArray[x]);
-                startTimeIntegerArray.push(temp);
-                
-              } 
-              console.log(startTimeIntegerArray);
+           
+              console.log(startTimeArray);
 
               var endTimeArray = res[i].end_time.split(":");
-              var endTimeIntegerArray =[];
-              for(var x=0; x< endTimeArray.length; x++){
-                var temp = parseInt(endTimeArray[x]);
-                endTimeIntegerArray.push(temp);
-                
-              } 
-              console.log(endTimeIntegerArray);
+          
+              console.log(endTimeArray);
 
             
               var name = res[i].subject_code + " " + res[i].number_title;
