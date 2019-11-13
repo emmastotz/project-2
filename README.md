@@ -1,8 +1,8 @@
 ### **BLOCK APP**
-#### A sequelized version of CHZBGR
+#### Access your student schedule for anywhere. 
 
 ##### PROBLEM/SOLUTION
-A time table scheduling App that lets users(students) sign in and choose what time and date they'd like to take a subject, then add it to their calendar.
+A scheduling app that lets users(students) choose their class schedule for the semester. 
 
 ##### BLOCK Overview
 * server.js (Sets up our app to use express and to listen at a port.)
@@ -23,20 +23,23 @@ A time table scheduling App that lets users(students) sign in and choose what ti
   * assets
     * css
       * style.css (Main stylesheet.)
-      * animate.css (Animation stylesheet.)
       * reset.css (Resets any style that the browser might have preloaded.)
+      * styles
+        * timetablejs.css (styling for the timetable.)
     * img (All images used in project.)
     * js
       * app.js (Runs the click functionality of the app.)
+    * scripts
+      * timetable.js (Library import for the timetable logic.)
 * views
   * index.handlebars (Dynamically holds html for use in the main file.)
   * layouts
     * main.handlebars (The layout that our index.handlebars references.)
 
 ##### Instructions to Run the App
-* Hosted on Heroku here: https://evil-ghoul-08418.herokuapp.com/
+* Hosted on Heroku here: https://quiet-oasis-29575.herokuapp.com/
 
-* OR clone the file from github. (https://github.com/emmastotz/chzbgr)
+* OR clone the file from github. (https://github.com/emmastotz/project-2)
 * Install all dependencies needed to run the program ("npm install").
 * Run the applications using node in the command line ("node server.js") and open up browser with correct port to see the magic.
 
@@ -44,8 +47,9 @@ A time table scheduling App that lets users(students) sign in and choose what ti
 * CSS3
 * Animate.css
 * Bootstrap 4
-* JavaScript
+* JavaScript/JQuery
+* Timetable.js
 * Node
 * NPMs: Express, Handlebars, dotenv, Sequelize, Sequelize-cli
 
-This app was created by Andy Tran, Alex Simuro, Emma Stotz and Sandy Enow
+This app was created by Andy Tran, Alex Simuro, Emma Stotz, Juan Munoz and Sandy Enow
