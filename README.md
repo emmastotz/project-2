@@ -45,11 +45,11 @@ A scheduling app that lets users(students) choose their class schedule for the s
 
 ##### Technologies Used
 * CSS3
-* Animate.css
 * Bootstrap 4
 * JavaScript/JQuery
 * Timetable.js
+* MySQL 
 * Node
-* NPMs: Express, Handlebars, dotenv, Sequelize, Sequelize-cli
+* NPMs: Express, Handlebars, Sequelize, Sequelize-cli
 
 This app was created by Andy Tran, Alex Simuro, Emma Stotz, Juan Munoz and Sandy Enow
